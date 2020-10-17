@@ -3,7 +3,7 @@
 
 rofi-passbolt is a native mode for [](https://github.com/davatorium/rofi) written in Go. It is fast and has a minimal code footprint.
 
-![](./docs/media/teaser.webm)
+![](docs/media/teaser.gif)
 
 ## Building
 
