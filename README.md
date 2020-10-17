@@ -1,9 +1,14 @@
 # rofi-passbolt
 > I have to login that often!
 
-rofi-passbolt is a native mode for [](https://github.com/davatorium/rofi) written in Go. It is fast and has a minimal code footprint.
+rofi-passbolt is a [](https://github.com/davatorium/rofi) mode to access passbolt. It is fast, has a minimal code footprint and is written in Go. This is not a set of bash scrips which handle your secrets, but a shared library which is loaded by rofi.
 
 ![](docs/media/teaser.gif)
+
+## Dependencies
+
+* xdotool
+* Go
 
 ## Building
 
