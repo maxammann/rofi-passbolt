@@ -102,7 +102,7 @@ func getCookie(cookies []*http.Cookie, name string) *http.Cookie {
 func postForm(baseUrl string, path string, values url.Values, jsonResult interface{}) (*http.Response, error) {
 	resp, err := http.PostForm(fmt.Sprintf("%v%v", baseUrl, path), values)
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
