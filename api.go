@@ -11,13 +11,13 @@ import (
 )
 
 type Auth struct {
-	cookie *http.Cookie
+	cookies []*http.Cookie
 }
 
 func FetchResources(baseUrl string, auth Auth) ([]Resource, error) {
 	var resourcesResult ResourcesResult
 
-	cookies := []*http.Cookie{auth.cookie}
+	cookies := auth.cookies
 	_, err := get(baseUrl, "/resources.json?api-version=v2", cookies, &resourcesResult)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func FetchResources(baseUrl string, auth Auth) ([]Resource, error) {
 func FetchSecret(baseUrl string, resourceId string, auth Auth, keyring openpgp.EntityList) (*string, error) {
 	var secretResult SecretResult
 
-	cookies := []*http.Cookie{auth.cookie}
+	cookies := auth.cookies
 	_, err := get(baseUrl, fmt.Sprintf("/secrets/resource/%v.json?api-version=v2", resourceId), cookies, &secretResult)
 	if err != nil {
 		return nil, err
@@ -79,13 +79,7 @@ func Login(baseUrl string, fingerprint string, keyring openpgp.EntityList) (*Aut
 		return nil, err
 	}
 
-	var cakePHPCookie = getCookie(resp.Cookies(), "CAKEPHP")
-
-	if cakePHPCookie == nil {
-		return nil, errors.New("no CAKEPHP cookie found")
-	}
-
-	auth := Auth{cakePHPCookie}
+	auth := Auth{resp.Cookies()}
 	return &auth, nil
 }
 
