@@ -37,8 +37,16 @@ func FetchSecret(baseUrl string, resourceId string, auth Auth, keyring openpgp.E
 	armoredSecret := secretResult.Body.Data
 	secret, err := decryptArmoredMessage(armoredSecret, keyring)
 
-	secretString := string(secret)
-	return &secretString, nil
+	maybe_json := make(map[string]string)
+
+    if err := json.Unmarshal(secret, &maybe_json); err != nil {
+		secretString := string(secret)
+		return &secretString, nil
+    }
+
+	ret := maybe_json["password"]
+
+	return &ret, nil
 }
 
 func Login(baseUrl string, fingerprint string, keyring openpgp.EntityList) (*Auth, error) {
